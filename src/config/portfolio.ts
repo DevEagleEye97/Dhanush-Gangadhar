@@ -61,7 +61,7 @@ export const portfolioConfig: PortfolioConfig = {
   // Set external links here. Any null link is cleanly omitted or replaced with safe dev fallback.
   domain: null, // e.g. "https://bonddigital.me"
   email: "bond@example.com", // Set your preferred contact email
-  githubUrl: "https://github.com", // Set your personal GitHub profile URL
+  githubUrl: "https://github.com/DevEagleEye97", // Configured personal GitHub profile
   linkedinUrl: null, // Set your LinkedIn profile URL when available
   telegramUrl: null, // Set your public Telegram channel/handle when available
   resumeUrl: null, // Link to your PDF resume when ready
