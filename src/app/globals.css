@@ -1,26 +1,107 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-main: #F7F8F4;
+  --bg-secondary: #EEF0EA;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F2F5ED;
+  --text-primary: #141714;
+  --text-secondary: #565E53;
+  --text-muted: #7E867B;
+  --border-main: #D8DDD4;
+  --border-subtle: #E6EAE3;
+  --accent: #3A6321;
+  --accent-muted: #557F36;
+  --accent-surface: #E8EFE3;
+  --accent-border: #BCD0B0;
+  --accent-badge-text: #213C11;
+  --terminal-bg: #121512;
+  --terminal-text: #F3F2EA;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --bg-main: #101210;
+  --bg-secondary: #171A17;
+  --bg-card: #1B1F1B;
+  --bg-card-hover: #232823;
+  --text-primary: #F3F2EA;
+  --text-secondary: #A6ADA3;
+  --text-muted: #737A71;
+  --border-main: #303630;
+  --border-subtle: #242924;
+  --accent: #C4E3A6;
+  --accent-muted: #A8C98A;
+  --accent-surface: rgba(196, 227, 166, 0.10);
+  --accent-border: rgba(196, 227, 166, 0.25);
+  --accent-badge-text: #C4E3A6;
+  --terminal-bg: #0C0E0C;
+  --terminal-text: #F3F2EA;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  --color-bg-main: var(--bg-main);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-card: var(--bg-card);
+  --color-bg-card-hover: var(--bg-card-hover);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border-main: var(--border-main);
+  --color-border-subtle: var(--border-subtle);
+  --color-accent: var(--accent);
+  --color-accent-muted: var(--accent-muted);
+  --color-accent-surface: var(--accent-surface);
+  --color-accent-border: var(--accent-border);
+  --color-accent-badge-text: var(--accent-badge-text);
+  --color-terminal-bg: var(--terminal-bg);
+  --color-terminal-text: var(--terminal-text);
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Custom focus indicator */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-main);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
