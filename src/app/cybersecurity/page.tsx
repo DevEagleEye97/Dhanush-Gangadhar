@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import { CybersecurityRoadmapView } from "@/components/CybersecurityRoadmapView";
 import { Shield, Sparkles, BookOpen, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { portfolioConfig } from "@/config/portfolio";
 
 export const metadata: Metadata = {
   title: "Cybersecurity Learning Hub | Dhanush Gangadhar",

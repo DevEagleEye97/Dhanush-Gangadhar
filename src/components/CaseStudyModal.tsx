@@ -11,12 +11,7 @@ import {
   ArrowRight, 
   Lightbulb, 
   Target, 
-  Compass, 
-  Layers,
-  Code,
-  Calendar,
-  GitFork,
-  Star
+  Compass
 } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
 

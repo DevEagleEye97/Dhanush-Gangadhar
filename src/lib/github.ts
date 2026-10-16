@@ -237,7 +237,8 @@ export function transformRepoToProject(repo: GitHubRawRepo): UnifiedProject {
     repo.description ||
     `Public ${repo.language || "code"} repository on GitHub by ${githubProjectsConfig.username}.`;
 
-  const demoUrl = override.demoUrl || (repo.homepage ? repo.homepage : null);
+  const rawDemo = override.demoUrl || repo.homepage || null;
+  const demoUrl = rawDemo && /^https?:\/\//i.test(rawDemo.trim()) ? rawDemo.trim() : null;
   const isFeatured =
     override.featured ?? githubProjectsConfig.featuredRepos.includes(repo.name);
 
@@ -385,8 +386,10 @@ function processRawRepos(rawList: GitHubRawRepo[]): UnifiedProject[] {
  * Fetches raw README content for a given repository
  */
 export async function getRepoReadme(repoName: string): Promise<string | null> {
+  const sanitizedName = repoName.replace(/[^a-zA-Z0-9._-]/g, "");
+  if (!sanitizedName) return null;
   const username = githubProjectsConfig.username;
-  const endpoint = `https://api.github.com/repos/${username}/${repoName}/readme`;
+  const endpoint = `https://api.github.com/repos/${username}/${encodeURIComponent(sanitizedName)}/readme`;
 
   try {
     const res = await fetch(endpoint, {

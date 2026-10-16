@@ -12,6 +12,7 @@ const cspHeader = `
   form-action 'self' mailto:;
   frame-ancestors 'none';
   connect-src 'self' https:;
+  block-all-mixed-content;
   upgrade-insecure-requests;
 `.replace(/\s{2,}/g, " ").trim();
 
@@ -38,7 +39,15 @@ const securityHeaders = [
   },
   {
     key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), usb=()",
+    value: "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), usb=(), display-capture=(), interest-cohort=(), serial=(), hid=()",
+  },
+  {
+    key: "X-Permitted-Cross-Domain-Policies",
+    value: "none",
+  },
+  {
+    key: "X-Download-Options",
+    value: "noopen",
   },
   {
     key: "Cross-Origin-Opener-Policy",

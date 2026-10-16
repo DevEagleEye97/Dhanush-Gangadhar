@@ -3,7 +3,7 @@
 import { UnifiedProject } from "@/lib/github";
 import { Project } from "@/types/portfolio";
 import Link from "next/link";
-import { ExternalLink, BookOpen, ArrowUpRight, Star, GitFork, Calendar, Code } from "lucide-react";
+import { ExternalLink, BookOpen, ArrowUpRight, Star, GitFork, Calendar } from "lucide-react";
 import { GithubIcon } from "@/components/SocialIcons";
 
 interface ProjectCardProps {

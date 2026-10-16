@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { ProjectFilterCategory, githubProjectsConfig } from "@/config/github-projects";
 import { UnifiedProject } from "@/lib/github";
 import { Project } from "@/types/portfolio";
@@ -15,10 +15,8 @@ import {
   Search, 
   GitBranch, 
   ExternalLink, 
-  Check, 
   AlertCircle 
 } from "lucide-react";
-import { GithubIcon } from "@/components/SocialIcons";
 
 interface ProjectsSectionProps {
   limit?: number;
@@ -42,16 +40,14 @@ export function ProjectsSection({ limit, showViewAllLink = true }: ProjectsSecti
 
   // GitHub repositories state
   const [projects, setProjects] = useState<UnifiedProject[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isFallback, setIsFallback] = useState(false);
   const [lastSynced, setLastSynced] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Load repositories on client mount
-  const fetchRepositories = async (isManual = false) => {
-    if (isManual) setIsRefreshing(true);
-    else setIsLoading(true);
+  // Manual refresh handler
+  const refreshRepositories = useCallback(async () => {
+    setIsRefreshing(true);
     setErrorMsg(null);
 
     try {
@@ -63,16 +59,38 @@ export function ProjectsSection({ limit, showViewAllLink = true }: ProjectsSecti
         setIsFallback(Boolean(data.isFallback));
         setLastSynced(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
       }
-    } catch (err: any) {
+    } catch {
       setErrorMsg("GitHub sync unavailable. Displaying local verified catalog.");
     } finally {
-      setIsLoading(false);
       setIsRefreshing(false);
     }
-  };
+  }, []);
 
+  // Load repositories asynchronously on client mount
   useEffect(() => {
-    fetchRepositories();
+    let active = true;
+
+    fetch("/api/github-repos")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
+      .then((data) => {
+        if (!active) return;
+        if (data.projects && Array.isArray(data.projects)) {
+          setProjects(data.projects);
+          setIsFallback(Boolean(data.isFallback));
+          setLastSynced(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+        }
+      })
+      .catch(() => {
+        if (!active) return;
+        setErrorMsg("GitHub sync unavailable. Displaying local verified catalog.");
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   // Combine fetched GitHub repos with any existing static projects that aren't duplicates
@@ -164,11 +182,11 @@ export function ProjectsSection({ limit, showViewAllLink = true }: ProjectsSecti
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border-main bg-bg-card text-xs font-mono text-text-muted">
               <span className={`w-2 h-2 rounded-full ${isFallback ? "bg-amber-400" : "bg-emerald-400"} animate-pulse`} />
               <span>
-                {isFallback ? "Cached Repos" : "GitHub Sync"} ({allProjects.length})
+                {isFallback ? "Cached Repos" : lastSynced ? `Live (${lastSynced})` : "GitHub Sync"} ({allProjects.length})
               </span>
               <button
                 type="button"
-                onClick={() => fetchRepositories(true)}
+                onClick={refreshRepositories}
                 disabled={isRefreshing}
                 className="p-1 rounded hover:bg-bg-secondary text-text-muted hover:text-text-primary transition-colors ml-1 cursor-pointer"
                 title="Refresh repositories from GitHub"
@@ -233,7 +251,7 @@ export function ProjectsSection({ limit, showViewAllLink = true }: ProjectsSecti
               <span>{errorMsg}</span>
             </span>
             <button
-              onClick={() => fetchRepositories(true)}
+              onClick={refreshRepositories}
               className="underline hover:text-amber-100"
             >
               Retry

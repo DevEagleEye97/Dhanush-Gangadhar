@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { projectsData } from "@/data/projects";
 import { getPublicRepositories, getRepoReadme, UnifiedProject } from "@/lib/github";
-import { githubProjectsConfig } from "@/config/github-projects";
 import { 
   ArrowLeft, 
   ExternalLink, 
@@ -11,7 +10,6 @@ import {
   Compass, 
   Layers, 
   CheckCircle2, 
-  Lightbulb, 
   Calendar,
   Star,
   GitFork,
@@ -91,7 +89,6 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
-  const isGitHub = Boolean(ghProject);
   const title = standard ? standard.title : ghProject!.title;
   const description = standard ? standard.shortDescription : ghProject!.description;
   const category = standard ? standard.category : ghProject!.category;

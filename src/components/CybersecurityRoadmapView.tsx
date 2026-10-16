@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { 
   cybersecurityRoadmap, 
   roadmapGuidanceList 
 } from "@/data/cybersecurity-roadmap";
-import { CybersecurityModule } from "@/types/portfolio";
 import { YoutubeIcon } from "@/components/SocialIcons";
 import { 
-  Shield, 
   ShieldCheck, 
   ExternalLink, 
   CheckCircle2, 
@@ -16,19 +14,13 @@ import {
   Clock, 
   AlertTriangle, 
   Search, 
-  BookOpen, 
-  Sparkles, 
   CheckSquare, 
   RotateCcw, 
   Download, 
   FileEdit, 
   ChevronDown, 
   ChevronUp, 
-  Layers, 
-  ListOrdered,
-  Calendar,
-  Lock,
-  Terminal,
+  Terminal, 
   Info
 } from "lucide-react";
 
@@ -51,24 +43,18 @@ export function CybersecurityRoadmapView() {
   const [activeWeek, setActiveWeek] = useState<number>(1);
   const [filterStatus, setFilterStatus] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [progressState, setProgressState] = useState<AllProgressState>({});
+  const [progressState, setProgressState] = useState<AllProgressState>(() => {
+    if (typeof window === "undefined") return {};
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
   const [activeTab, setActiveTab] = useState<"overview" | "task" | "notes">("overview");
   const [expandedGuidance, setExpandedGuidance] = useState<boolean>(true);
   const [showResetConfirm, setShowResetConfirm] = useState<boolean>(false);
-  const [isClient, setIsClient] = useState<boolean>(false);
-
-  // Initialize from localStorage
-  useEffect(() => {
-    setIsClient(true);
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        setProgressState(JSON.parse(saved));
-      }
-    } catch {
-      // LocalStorage unavailable / blocked
-    }
-  }, []);
 
   // Sync to localStorage
   const saveProgress = (newState: AllProgressState) => {
@@ -81,16 +67,20 @@ export function CybersecurityRoadmapView() {
   };
 
   // Get progress for a specific module
-  const getModuleProgress = (week: number): ModuleProgress => {
-    return (
-      progressState[week] || {
-        status: "Not started",
-        checkedTasks: {},
-        deliverableAnswers: {},
-        personalNotes: cybersecurityRoadmap.find((m) => m.week === week)?.defaultNotesTemplate || "",
-      }
-    );
-  };
+  const getModuleProgress = useCallback(
+    (week: number): ModuleProgress => {
+      return (
+        progressState[week] || {
+          status: "Not started",
+          checkedTasks: {},
+          deliverableAnswers: {},
+          personalNotes:
+            cybersecurityRoadmap.find((m) => m.week === week)?.defaultNotesTemplate || "",
+        }
+      );
+    },
+    [progressState]
+  );
 
   // Update a single module's progress
   const updateModuleProgress = (week: number, patch: Partial<ModuleProgress>) => {
@@ -230,7 +220,7 @@ export function CybersecurityRoadmapView() {
 
       return matchesStatus && matchesSearch;
     });
-  }, [filterStatus, searchQuery, progressState]);
+  }, [filterStatus, searchQuery, getModuleProgress]);
 
   const activeModule = useMemo(() => {
     return (
