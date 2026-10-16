@@ -4,8 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { portfolioConfig } from "@/config/portfolio";
 import { projectsData } from "@/data/projects";
 import { learningData } from "@/data/learning";
+import { cybersecurityRoadmap } from "@/data/cybersecurity-roadmap";
 import { useTheme } from "next-themes";
-import { Terminal as TerminalIcon, X, CornerDownLeft, Minimize2 } from "lucide-react";
+import { sanitizeInput } from "@/lib/security";
+import { Terminal as TerminalIcon, X, CornerDownLeft } from "lucide-react";
 
 interface TerminalModalProps {
   isOpen: boolean;
@@ -43,18 +45,18 @@ export function TerminalModal({ isOpen, onClose }: TerminalModalProps) {
 
   // Safe allowlisted command executor
   const handleCommand = (rawInput: string) => {
-    const trimmed = rawInput.trim();
-    if (!trimmed) return;
+    const cleaned = sanitizeInput(rawInput, 100);
+    if (!cleaned) return;
 
-    setHistory((prev) => [...prev, trimmed]);
+    setHistory((prev) => [...prev.slice(-30), cleaned]);
     setHistoryIdx(-1);
 
-    const parts = trimmed.split(" ");
+    const parts = cleaned.split(" ");
     const cmd = parts[0].toLowerCase();
 
     const newLogs: OutputEntry[] = [
-      ...logs,
-      { type: "input", text: `bond@hq:~$ ${trimmed}` },
+      ...logs.slice(-40),
+      { type: "input", text: `bond@hq:~$ ${cleaned}` },
     ];
 
     switch (cmd) {
@@ -68,6 +70,7 @@ export function TerminalModal({ isOpen, onClose }: TerminalModalProps) {
                 <p><span className="text-text-primary font-medium">about</span> — View student identity and focus</p>
                 <p><span className="text-text-primary font-medium">projects</span> — List all projects and status</p>
                 <p><span className="text-text-primary font-medium">learning</span> — Inspect current curriculum progress</p>
+                <p><span className="text-text-primary font-medium">cybersecurity</span> — 7-Week course plan & lab roadmap</p>
                 <p><span className="text-text-primary font-medium">ventures</span> — Details on Velora</p>
                 <p><span className="text-text-primary font-medium">socials</span> — View configured public channels</p>
                 <p><span className="text-text-primary font-medium">contact</span> — Get direct contact information</p>
@@ -141,6 +144,30 @@ export function TerminalModal({ isOpen, onClose }: TerminalModalProps) {
                 ))}
               </div>
               <p className="text-[10px] text-text-muted pt-1">Visit /learning for the complete tracking timeline.</p>
+            </div>
+          ),
+        });
+        break;
+
+      case "cybersecurity":
+        newLogs.push({
+          type: "output",
+          text: (
+            <div className="space-y-2 font-mono text-xs">
+              <p className="text-accent font-semibold">7-Week Cybersecurity Course Plan:</p>
+              <div className="space-y-1.5 text-[11px]">
+                {cybersecurityRoadmap.map((mod) => (
+                  <div key={mod.week} className="border-l-2 border-border-main pl-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-accent font-bold">Week {mod.week}:</span>
+                      <span className="text-text-primary font-medium">{mod.title}</span>
+                    </div>
+                    <p className="text-text-secondary text-[10px]">{mod.courseName}</p>
+                    <p className="text-text-muted text-[10px]">Lab: {mod.practiceTask.title}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[10px] text-text-muted pt-1">Navigate to /cybersecurity for the interactive tracker & lab notes.</p>
             </div>
           ),
         });
@@ -336,6 +363,7 @@ export function TerminalModal({ isOpen, onClose }: TerminalModalProps) {
             autoComplete="off"
             autoCapitalize="off"
             spellCheck="false"
+            maxLength={100}
           />
           <button
             type="button"

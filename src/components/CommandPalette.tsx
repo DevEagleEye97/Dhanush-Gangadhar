@@ -17,7 +17,9 @@ import {
   Mail, 
   ExternalLink,
   Copy,
-  Check
+  Check,
+  Shield,
+  Globe
 } from "lucide-react";
 
 interface CommandItem {
@@ -47,11 +49,16 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
 
   useEffect(() => {
     if (isOpen) {
-      setQuery("");
-      setSelectedIndex(0);
-      setTimeout(() => inputRef.current?.focus(), 50);
+      const timer = setTimeout(() => inputRef.current?.focus(), 50);
+      return () => clearTimeout(timer);
     }
   }, [isOpen]);
+
+  const handleClose = () => {
+    setQuery("");
+    setSelectedIndex(0);
+    onClose();
+  };
 
   const copyEmail = () => {
     if (portfolioConfig.email) {
@@ -59,7 +66,7 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
       setCopiedEmail(true);
       setTimeout(() => {
         setCopiedEmail(false);
-        onClose();
+        handleClose();
       }, 1200);
     }
   };
@@ -68,15 +75,15 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
     // Navigation
     {
       id: "nav-about",
-      title: "About Bond",
+      title: `About ${portfolioConfig.displayName}`,
       subtitle: "Background, education & principles",
       category: "Navigation",
       icon: <User className="w-4 h-4 text-accent" />,
       action: () => {
         router.push("/#about");
-        onClose();
+        handleClose();
       },
-      keywords: ["about", "bio", "education", "student", "philosophy"],
+      keywords: ["about", "bio", "education", "student", "philosophy", "dhanush"],
     },
     {
       id: "nav-projects",
@@ -86,55 +93,67 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
       icon: <FolderGit2 className="w-4 h-4 text-accent" />,
       action: () => {
         router.push("/projects");
-        onClose();
+        handleClose();
       },
       keywords: ["projects", "code", "github", "packetlens", "audit", "security"],
     },
     {
+      id: "nav-cybersecurity",
+      title: "Open Cybersecurity Roadmap",
+      subtitle: "7-Week curriculum, video lectures & lab tasks",
+      category: "Navigation",
+      icon: <Shield className="w-4 h-4 text-accent" />,
+      action: () => {
+        router.push("/cybersecurity");
+        handleClose();
+      },
+      keywords: ["cybersecurity", "security", "roadmap", "cs50", "wireshark", "nmap", "splunk", "sc900", "soc"],
+    },
+    {
       id: "nav-learning",
-      title: "Learning Journey",
+      title: "Open Learning Log",
       subtitle: "Curriculum timeline & concept progress",
       category: "Navigation",
       icon: <GraduationCap className="w-4 h-4 text-accent" />,
       action: () => {
         router.push("/learning");
-        onClose();
+        handleClose();
       },
       keywords: ["learning", "timeline", "networking", "ccna", "linux", "c", "python"],
     },
     {
-      id: "nav-ventures",
-      title: "Ventures — Velora",
-      subtitle: "Digital growth & automation initiative",
-      category: "Navigation",
-      icon: <Rocket className="w-4 h-4 text-accent" />,
-      action: () => {
-        router.push("/#ventures");
-        onClose();
-      },
-      keywords: ["ventures", "velora", "business", "automation", "saas"],
-    },
-    {
       id: "nav-notes",
-      title: "Notes & Build Logs",
+      title: "Open Technical Notes",
       subtitle: "Technical articles & engineering journal",
       category: "Navigation",
       icon: <FileText className="w-4 h-4 text-accent" />,
       action: () => {
         router.push("/notes");
-        onClose();
+        handleClose();
       },
       keywords: ["notes", "journal", "tutorials", "articles", "logs"],
     },
     {
+      id: "nav-ventures",
+      title: "Open Ventures — Velora",
+      subtitle: "Digital growth & automation initiative",
+      category: "Navigation",
+      icon: <Rocket className="w-4 h-4 text-accent" />,
+      action: () => {
+        router.push("/#ventures");
+        handleClose();
+      },
+      keywords: ["ventures", "velora", "business", "automation", "saas"],
+    },
+    {
       id: "nav-contact",
-      title: "Contact & Opportunities",
-      subtitle: "Internships, hackathons & discussions",
+      title: "Navigate to Contact",
+      subtitle: "Direct outreach & opportunities",
       category: "Navigation",
       icon: <Mail className="w-4 h-4 text-accent" />,
       action: () => {
         router.push("/#contact");
-        onClose();
+        handleClose();
       },
       keywords: ["contact", "email", "internship", "collaborate", "hire"],
     },
@@ -147,7 +166,7 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
       category: "Actions",
       icon: <Terminal className="w-4 h-4 text-accent" />,
       action: () => {
-        onClose();
+        handleClose();
         if (onOpenTerminal) onOpenTerminal();
       },
       keywords: ["terminal", "cli", "shell", "developer", "console"],
@@ -160,7 +179,7 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
       icon: theme === "dark" ? <Sun className="w-4 h-4 text-accent" /> : <Moon className="w-4 h-4 text-accent" />,
       action: () => {
         setTheme(theme === "dark" ? "light" : "dark");
-        onClose();
+        handleClose();
       },
       keywords: ["theme", "dark", "light", "mode", "color"],
     },
@@ -189,7 +208,7 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
             icon: <ExternalLink className="w-4 h-4 text-text-muted" />,
             action: () => {
               window.open(portfolioConfig.githubUrl!, "_blank", "noopener,noreferrer");
-              onClose();
+              handleClose();
             },
             keywords: ["github", "git", "source", "code"],
           },
@@ -205,9 +224,25 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
             icon: <ExternalLink className="w-4 h-4 text-text-muted" />,
             action: () => {
               window.open(portfolioConfig.linkedinUrl!, "_blank", "noopener,noreferrer");
-              onClose();
+              handleClose();
             },
             keywords: ["linkedin", "network", "career"],
+          },
+        ]
+      : []),
+    ...(portfolioConfig.existingPortfolioUrl
+      ? [
+          {
+            id: "link-existing-portfolio",
+            title: "Open Live Vercel Portfolio",
+            subtitle: "Original live deployed portfolio",
+            category: "External Links" as const,
+            icon: <Globe className="w-4 h-4 text-text-muted" />,
+            action: () => {
+              window.open(portfolioConfig.existingPortfolioUrl!, "_blank", "noopener,noreferrer");
+              handleClose();
+            },
+            keywords: ["vercel", "live", "portfolio", "website"],
           },
         ]
       : []),
@@ -222,9 +257,10 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
     return matchesTitle || matchesSubtitle || matchesKeywords;
   });
 
-  useEffect(() => {
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
     setSelectedIndex(0);
-  }, [query]);
+  };
 
   // Keyboard navigation inside palette
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -241,7 +277,7 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
       }
     } else if (e.key === "Escape") {
       e.preventDefault();
-      onClose();
+      handleClose();
     }
   };
 
@@ -250,7 +286,7 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
   return (
     <div
       className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 sm:px-6 bg-black/60 backdrop-blur-xs transition-opacity animate-in fade-in duration-150"
-      onClick={onClose}
+      onClick={handleClose}
       role="dialog"
       aria-modal="true"
       aria-label="Command palette"
@@ -267,8 +303,9 @@ export function CommandPalette({ isOpen, onClose, onOpenTerminal }: CommandPalet
             ref={inputRef}
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={handleQueryChange}
             placeholder="Type a command or search..."
+            maxLength={60}
             className="w-full py-3.5 text-sm bg-transparent border-0 focus:outline-none focus:ring-0 text-text-primary placeholder:text-text-muted"
           />
           <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[10px] font-mono font-medium rounded border border-border-main bg-bg-secondary text-text-muted">

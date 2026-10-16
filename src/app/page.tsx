@@ -1,5 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { Currently } from "@/components/Currently";
+import { CybersecurityTeaser } from "@/components/CybersecurityTeaser";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { LearningTimeline } from "@/components/LearningTimeline";
 import { VenturesSection } from "@/components/VenturesSection";
@@ -12,6 +13,7 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen">
       <Hero />
       <Currently />
+      <CybersecurityTeaser />
       <ProjectsSection limit={6} showViewAllLink={true} />
       <LearningTimeline limit={6} showViewAllLink={true} />
       <VenturesSection />

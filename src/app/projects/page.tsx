@@ -2,8 +2,8 @@ import { ProjectsSection } from "@/components/ProjectsSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Projects",
-  description: "Explore all technical projects, command-line utilities, defensive cybersecurity tools, and automation experiments by Bond.",
+  title: "Projects & GitHub Repositories",
+  description: "Explore all technical projects, cybersecurity tools, web applications, and software experiments by Dhanush Gangadhar, synchronized with GitHub.",
 };
 
 export default function ProjectsPage() {

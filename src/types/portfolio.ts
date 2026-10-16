@@ -126,9 +126,36 @@ export interface PortfolioConfig {
   email: string | null;
   githubUrl: string | null;
   linkedinUrl: string | null;
+  existingPortfolioUrl?: string | null;
   telegramUrl: string | null;
   resumeUrl: string | null;
 
   currentFocus: CurrentFocus;
   ventures: Venture[];
+}
+
+export interface PracticeTaskField {
+  id: string;
+  label: string;
+  placeholder?: string;
+}
+
+export interface CybersecurityModule {
+  week: number;
+  title: string;
+  courseName: string;
+  provider: string;
+  estimatedDuration?: string;
+  youtubeUrl: string;
+  isPlaylist?: boolean;
+  topics: string[];
+  practiceTask: {
+    title: string;
+    description: string;
+    guidance?: string;
+    warning?: string;
+    deliverableFields?: PracticeTaskField[];
+  };
+  checklists: string[];
+  defaultNotesTemplate?: string;
 }

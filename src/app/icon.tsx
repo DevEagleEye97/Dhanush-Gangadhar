@@ -11,21 +11,22 @@ export default function Icon() {
     (
       <div
         style={{
-          fontSize: 18,
+          fontSize: 13,
           background: "#101210",
           width: "100%",
           height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#C4E3A6",
+          color: "#C5E3A7",
           borderRadius: "6px",
           fontWeight: 800,
           fontFamily: "monospace",
-          border: "1px solid #303630",
+          border: "1px solid #303731",
+          letterSpacing: "-0.5px",
         }}
       >
-        B
+        DG
       </div>
     ),
     {

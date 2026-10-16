@@ -1,22 +1,10 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import Link from "next/link";
 import { portfolioConfig } from "@/config/portfolio";
-import { ArrowUp, Send, Mail, FileText } from "lucide-react";
+import { Mail, FileText, Globe } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TelegramIcon } from "@/components/SocialIcons";
+import { ScrollToTopButton } from "@/components/ScrollToTop";
+import { CurrentYear } from "@/components/CurrentYear";
 
 export function Footer() {
-  const [currentYear, setCurrentYear] = useState<number>(2026);
-
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <footer className="w-full border-t border-border-main bg-bg-secondary/40 mt-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
@@ -64,6 +52,19 @@ export function Footer() {
               </a>
             )}
 
+            {portfolioConfig.existingPortfolioUrl && (
+              <a
+                href={portfolioConfig.existingPortfolioUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 hover:text-accent transition-colors"
+                aria-label="Existing Live Portfolio"
+              >
+                <Globe className="w-3.5 h-3.5" />
+                <span>Existing Site</span>
+              </a>
+            )}
+
             {portfolioConfig.telegramUrl && (
               <a
                 href={portfolioConfig.telegramUrl}
@@ -102,21 +103,13 @@ export function Footer() {
             )}
 
             {/* Back to top button */}
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-border-main bg-bg-card hover:border-accent text-text-muted hover:text-text-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ml-auto md:ml-2"
-              aria-label="Scroll back to top of page"
-            >
-              <ArrowUp className="w-3 h-3" />
-              <span>Top</span>
-            </button>
+            <ScrollToTopButton />
           </div>
         </div>
 
         {/* Bottom copyright notice */}
         <div className="pt-8 mt-8 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-text-muted font-mono">
-          <p>© {currentYear} {portfolioConfig.displayName}. All rights reserved.</p>
+          <p>© <CurrentYear /> {portfolioConfig.displayName}. All rights reserved.</p>
           <p className="flex items-center gap-2">
             <span>Built with Next.js & Tailwind CSS</span>
             <span>•</span>

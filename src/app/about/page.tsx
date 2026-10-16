@@ -3,7 +3,7 @@ import { ContactSection } from "@/components/ContactSection";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Bond",
+  title: "About Dhanush Gangadhar",
   description: "Computer Science Engineering Student, aspiring cybersecurity professional, and software builder.",
 };
 

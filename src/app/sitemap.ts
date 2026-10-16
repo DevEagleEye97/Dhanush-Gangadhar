@@ -4,7 +4,7 @@ import { projectsData } from "@/data/projects";
 import { notesData } from "@/data/notes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = portfolioConfig.domain || "https://bonddigital.me";
+  const baseUrl = portfolioConfig.domain || portfolioConfig.existingPortfolioUrl || "https://dhanush-gangadhar.vercel.app";
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -12,6 +12,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/cybersecurity`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/projects`,
@@ -39,10 +45,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const projectRoutes: MetadataRoute.Sitemap = projectsData.map((project) => ({
-    url: `${baseUrl}/projects/${project.slug}`,
+  const staticProjectSlugs = projectsData.map((project) => project.slug);
+  const githubSlugs = [
+    "threat-x",
+    "shvasa-banking-co",
+    "basic-chess-game-",
+    "shvasaa",
+    "dhanush-gangadhar",
+  ];
+  const allProjectSlugs = Array.from(new Set([...staticProjectSlugs, ...githubSlugs]));
+
+  const projectRoutes: MetadataRoute.Sitemap = allProjectSlugs.map((slug) => ({
+    url: `${baseUrl}/projects/${slug}`,
     lastModified: new Date(),
-    changeFrequency: "monthly",
+    changeFrequency: "weekly",
     priority: 0.7,
   }));
 

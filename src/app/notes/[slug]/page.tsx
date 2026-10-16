@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { notesData } from "@/data/notes";
-import { ArrowLeft, Calendar, Clock, FileText, ArrowRight } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {

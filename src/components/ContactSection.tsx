@@ -9,7 +9,7 @@ import {
   FileText, 
   ArrowUpRight, 
   MessageSquare,
-  Sparkles
+  Globe
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon, TelegramIcon } from "@/components/SocialIcons";
 
@@ -124,7 +124,7 @@ export function ContactSection() {
                 </div>
 
                 <a
-                  href={`mailto:${portfolioConfig.email}?subject=Collaboration%20Inquiry%20—%20Bond%20Digital%20HQ`}
+                  href={`mailto:${portfolioConfig.email}?subject=Collaboration%20Inquiry%20—%20Dhanush%20Gangadhar`}
                   className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-accent-badge-text font-medium text-xs hover:opacity-90 transition-opacity"
                 >
                   <Mail className="w-3.5 h-3.5" />
@@ -133,7 +133,7 @@ export function ContactSection() {
               </div>
             ) : (
               <p className="text-xs text-text-muted italic">
-                Email address has not yet been configured in portfolio.ts.
+                Direct email is available via GitHub or LinkedIn contact channels.
               </p>
             )}
 
@@ -169,6 +169,21 @@ export function ContactSection() {
                     <div className="flex items-center gap-2">
                       <LinkedinIcon className="w-3.5 h-3.5" />
                       <span>LinkedIn</span>
+                    </div>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
+                )}
+
+                {portfolioConfig.existingPortfolioUrl && (
+                  <a
+                    href={portfolioConfig.existingPortfolioUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-2.5 rounded-lg border border-border-main bg-bg-secondary/40 hover:bg-bg-secondary text-xs font-mono text-text-secondary hover:text-text-primary transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Globe className="w-3.5 h-3.5 text-accent" />
+                      <span>Live Portfolio (Vercel)</span>
                     </div>
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </a>

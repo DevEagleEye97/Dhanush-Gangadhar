@@ -2,15 +2,14 @@
 
 import { useState } from "react";
 import { learningData } from "@/data/learning";
-import { LearningGroup, LearningStatus } from "@/types/portfolio";
+import { LearningStatus } from "@/types/portfolio";
 import Link from "next/link";
 import { 
   GraduationCap, 
   CheckCircle, 
   Clock, 
   Activity, 
-  ArrowRight,
-  Filter
+  ArrowRight
 } from "lucide-react";
 
 interface LearningTimelineProps {
@@ -30,6 +29,13 @@ export function LearningTimeline({ limit, showViewAllLink = true }: LearningTime
     "C & Python",
     "Web Engineering",
     "Cloud & Infrastructure",
+  ];
+
+  const statuses = [
+    { label: "All Statuses", value: "All" },
+    { label: "Completed", value: "completed" },
+    { label: "Practiced in Labs", value: "practiced" },
+    { label: "Currently Learning", value: "learning" },
   ];
 
   const filteredItems = learningData.filter((item) => {
@@ -95,85 +101,110 @@ export function LearningTimeline({ limit, showViewAllLink = true }: LearningTime
         </div>
 
         {/* Group Filter Bar */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
-          {groups.map((grp) => (
-            <button
-              key={grp}
-              type="button"
-              onClick={() => setSelectedGroup(grp)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-colors border ${
-                selectedGroup === grp
-                  ? "bg-accent text-accent-badge-text border-accent font-semibold shadow-xs"
-                  : "bg-bg-card text-text-secondary border-border-main hover:border-text-muted hover:text-text-primary"
-              }`}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar w-full sm:w-auto">
+            {groups.map((grp) => (
+              <button
+                key={grp}
+                type="button"
+                onClick={() => setSelectedGroup(grp)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-colors border ${
+                  selectedGroup === grp
+                    ? "bg-accent text-accent-badge-text border-accent font-semibold shadow-xs"
+                    : "bg-bg-card text-text-secondary border-border-main hover:border-text-muted hover:text-text-primary"
+                }`}
+              >
+                {grp}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-1.5 self-end sm:self-auto">
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="px-2.5 py-1.5 rounded-lg text-xs font-mono bg-bg-card border border-border-main text-text-secondary focus:outline-none focus:border-accent"
+              aria-label="Filter by learning status"
             >
-              {grp}
-            </button>
-          ))}
+              {statuses.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Timeline Layout */}
-        <div className="relative border-l border-border-main ml-3 sm:ml-6 pl-6 sm:pl-8 space-y-8">
-          {displayedItems.map((entry) => {
-            const badge = getStatusBadge(entry.status);
-            return (
-              <div key={entry.id} className="relative group">
-                {/* Timeline Node Dot */}
-                <span className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-bg-main bg-accent group-hover:scale-125 transition-transform" />
+        {displayedItems.length === 0 ? (
+          <div className="p-12 text-center rounded-xl border border-dashed border-border-main bg-bg-card/50">
+            <p className="text-sm text-text-muted font-mono">
+              No curriculum entries match the current filter selection.
+            </p>
+          </div>
+        ) : (
+          <div className="relative border-l border-border-main ml-3 sm:ml-6 pl-6 sm:pl-8 space-y-8">
+            {displayedItems.map((entry) => {
+              const badge = getStatusBadge(entry.status);
+              return (
+                <div key={entry.id} className="relative group">
+                  {/* Timeline Node Dot */}
+                  <span className="absolute -left-[31px] sm:-left-[39px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-bg-main bg-accent group-hover:scale-125 transition-transform" />
 
-                <div className="p-5 sm:p-6 rounded-xl border border-border-main bg-bg-card hover:border-accent/60 transition-colors space-y-3">
-                  {/* Top metadata */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-                    <span className="text-accent font-semibold uppercase tracking-wider">
-                      {entry.group}
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-text-muted">{entry.period}</span>
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] ${badge.classes}`}>
-                        {badge.icon}
-                        <span>{badge.label}</span>
+                  <div className="p-5 sm:p-6 rounded-xl border border-border-main bg-bg-card hover:border-accent/60 transition-colors space-y-3">
+                    {/* Top metadata */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                      <span className="text-accent font-semibold uppercase tracking-wider">
+                        {entry.group}
                       </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-text-muted">{entry.period}</span>
+                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] ${badge.classes}`}>
+                          {badge.icon}
+                          <span>{badge.label}</span>
+                        </span>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Topic Title */}
-                  <h3 className="text-base sm:text-lg font-bold text-text-primary">
-                    {entry.topic}
-                  </h3>
+                    {/* Topic Title */}
+                    <h3 className="text-base sm:text-lg font-bold text-text-primary">
+                      {entry.topic}
+                    </h3>
 
-                  {/* Explanation */}
-                  <p className="text-sm text-text-secondary leading-relaxed">
-                    {entry.shortExplanation}
-                  </p>
+                    {/* Explanation */}
+                    <p className="text-sm text-text-secondary leading-relaxed">
+                      {entry.shortExplanation}
+                    </p>
 
-                  {/* Key Concepts Tag Row */}
-                  <div className="flex flex-wrap items-center gap-1.5 pt-2">
-                    <span className="text-[10px] font-mono text-text-muted mr-1">Concepts:</span>
-                    {entry.keyConcepts.map((concept) => (
-                      <span
-                        key={concept}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded bg-bg-secondary text-text-secondary border border-border-subtle"
-                      >
-                        {concept}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Related project banner if present */}
-                  {entry.relatedProject && (
-                    <div className="pt-3 mt-3 border-t border-border-subtle flex items-center justify-between text-xs font-mono text-text-muted">
-                      <span>Related Project: <span className="text-text-primary font-medium">{entry.relatedProject}</span></span>
-                      <Link href="#projects" className="text-accent hover:underline flex items-center gap-1">
-                        <span>View Project</span>
-                        <ArrowRight className="w-3 h-3" />
-                      </Link>
+                    {/* Key Concepts Tag Row */}
+                    <div className="flex flex-wrap items-center gap-1.5 pt-2">
+                      <span className="text-[10px] font-mono text-text-muted mr-1">Concepts:</span>
+                      {entry.keyConcepts.map((concept) => (
+                        <span
+                          key={concept}
+                          className="text-[11px] font-mono px-2 py-0.5 rounded bg-bg-secondary text-text-secondary border border-border-subtle"
+                        >
+                          {concept}
+                        </span>
+                      ))}
                     </div>
-                  )}
+
+                    {/* Related project banner if present */}
+                    {entry.relatedProject && (
+                      <div className="pt-3 mt-3 border-t border-border-subtle flex items-center justify-between text-xs font-mono text-text-muted">
+                        <span>Related Project: <span className="text-text-primary font-medium">{entry.relatedProject}</span></span>
+                        <Link href="#projects" className="text-accent hover:underline flex items-center gap-1">
+                          <span>View Project</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );

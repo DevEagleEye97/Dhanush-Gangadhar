@@ -11,9 +11,7 @@ import {
   Command, 
   Terminal, 
   Menu, 
-  X, 
-  Sparkles, 
-  ArrowUpRight 
+  X 
 } from "lucide-react";
 
 export function Navbar() {
@@ -44,11 +42,13 @@ export function Navbar() {
   }, []);
 
   const navLinks = [
+    { label: "Home", href: "/", isRoute: true },
     { label: "About", href: "/#about", isRoute: false },
     { label: "Projects", href: "/projects", isRoute: true },
-    { label: "Learning", href: "/learning", isRoute: true },
-    { label: "Ventures", href: "/#ventures", isRoute: false },
+    { label: "Cybersecurity", href: "/cybersecurity", isRoute: true },
+    { label: "Learning Log", href: "/learning", isRoute: true },
     { label: "Notes", href: "/notes", isRoute: true },
+    { label: "Ventures", href: "/#ventures", isRoute: false },
     { label: "Contact", href: "/#contact", isRoute: false },
   ];
 

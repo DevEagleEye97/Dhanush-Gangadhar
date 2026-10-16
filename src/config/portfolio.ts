@@ -8,18 +8,18 @@ import { PortfolioConfig } from "@/types/portfolio";
  * so the site never generates fake or broken links.
  */
 export const portfolioConfig: PortfolioConfig = {
-  displayName: "Bond",
-  monogram: "BOND",
+  displayName: "Dhanush Gangadhar",
+  monogram: "DG",
   professionalHeadline: "Computer Science Engineering Student | Aspiring Cybersecurity Professional | Software Builder",
   eyebrow: "COMPUTER SCIENCE · CYBERSECURITY · BUILDING",
-  heroHeadline: "I build things. I learn how they work.",
-  heroSupportingCopy: "I'm a computer science engineering student exploring cybersecurity, software engineering, and entrepreneurship. I document what I learn and turn ideas into working projects.",
+  heroHeadline: "Learning how systems work. Building what comes next.",
+  heroSupportingCopy: "I'm Dhanush Gangadhar, a computer science engineering student exploring cybersecurity, networking, Linux, software development, and technology entrepreneurship. I document what I learn and put it into practice through projects and hands-on experiments.",
   shortBio: "Computer science engineering student dedicated to understanding systems from first principles. Focusing on networking, Linux internals, defensive security practices, and shipping resilient software.",
 
   education: {
     degree: "Computer Science & Engineering",
     status: "Undergraduate Engineering Student",
-    university: null, // Set to your university name when ready
+    university: null, // Left configurable - no fabricated credentials
     locationLabel: null, // Set to your region/city if desired
   },
 
@@ -28,13 +28,13 @@ export const portfolioConfig: PortfolioConfig = {
     "Networking, Linux, and infrastructure",
     "Software engineering and web development",
     "Artificial intelligence and automation",
-    "SaaS products and entrepreneurship",
-    "Open-source projects and hackathons",
+    "Technology entrepreneurship & digital ventures",
+    "Open-source projects and hands-on labs",
   ],
 
   professionalGoals: [
     "Build a rigorous, low-level foundation in computer networking, TCP/IP, and Linux operating systems.",
-    "Develop practical defensive and offensive security methodology through hands-on labs and vulnerability analysis.",
+    "Develop practical defensive security skills and ethical testing methodology through authorized hands-on labs.",
     "Ship functional, cleanly architected web tools and automation systems that solve real problems.",
     "Turn technical problem-solving into sustainable digital ventures starting with Velora.",
   ],
@@ -42,29 +42,30 @@ export const portfolioConfig: PortfolioConfig = {
   personalPrinciples: [
     {
       title: "First Principles Over Abstractions",
-      description: "Understand the packet headers, memory allocations, and kernel calls before accepting high-level frameworks as black boxes.",
+      description: "Understand packet headers, memory allocations, and kernel permissions before treating high-level abstractions as black boxes.",
     },
     {
       title: "Build to Verify Understanding",
-      description: "Passive reading creates the illusion of competence. Real understanding is proved by building small tools and fixing breaking edge cases.",
+      description: "Passive reading creates the illusion of competence. Real understanding is proved by building small tools, labs, and solving breaking edge cases.",
     },
     {
       title: "Radical Transparency",
       description: "Never fabricate credentials, metrics, or experience. Honest technical curiosity and steady iteration outlast inflated claims.",
     },
     {
-      title: "Pragmatic Architecture",
-      description: "Keep systems simple, robust, and readable. Avoid unnecessary bloat and maintain absolute control over the codebase.",
+      title: "Ethical Responsibility",
+      description: "Security knowledge exists to protect and harden systems. Practice exclusively within authorized, self-hosted, or designated lab environments.",
     },
   ],
 
-  // Set external links here. Any null link is cleanly omitted or replaced with safe dev fallback.
-  domain: null, // e.g. "https://bonddigital.me"
-  email: "bond@example.com", // Set your preferred contact email
-  githubUrl: "https://github.com/DevEagleEye97", // Configured personal GitHub profile
-  linkedinUrl: null, // Set your LinkedIn profile URL when available
-  telegramUrl: null, // Set your public Telegram channel/handle when available
-  resumeUrl: null, // Link to your PDF resume when ready
+  // Verified External Links
+  domain: null, // e.g. "https://dhanush-gangadhar.vercel.app/"
+  email: null, // Configure your public contact email
+  githubUrl: "https://github.com/DevEagleEye97",
+  linkedinUrl: "https://www.linkedin.com/in/dhanushgangadhar/",
+  existingPortfolioUrl: "https://dhanush-gangadhar.vercel.app/",
+  telegramUrl: null, // Configure when available
+  resumeUrl: null, // Link to PDF resume when ready
 
   currentFocus: {
     lastUpdated: "October 2026",
