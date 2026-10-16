@@ -21,9 +21,12 @@ Built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, and
    - Local browser persistence (LocalStorage) with export notes capability.
    - Explicit ethical warnings: strictly authorized testing on self-owned lab environments.
 
-2. **Personal Portfolio & Case Studies (`/projects`)**:
-   - Filterable projects across Cybersecurity, Software Development, Web Development, and AI.
-   - Authentic case studies detailing problem statement, technical rationale, challenges, and lessons learned.
+2. **Automatic GitHub Project Integration & Case Studies (`/projects`)**:
+   - Real-time repository discovery from public GitHub profile [`@DevEagleEye97`](https://github.com/DevEagleEye97) via `/api/github-repos`.
+   - Multi-tier project filters: Cybersecurity, Web development, Software development, AI & Automation, and Other experiments.
+   - Built-in GitHub sync status indicator with manual refresh and graceful fallback caching for rate limit protection.
+   - Direct repository README viewer and structured technical case studies.
+   - Verified real public repositories (`Threat-X`, `Shvasa-Banking-co`, `basic-chess-game-`, `Dhanush-Gangadhar`) with zero placeholder links.
 
 3. **Learning Log (`/learning`)**:
    - Chronological engineering syllabus tracking networking (OSI/TCP-IP), Linux internals, C programming, and systems security.
@@ -38,10 +41,12 @@ Built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, and
    - **Command Palette (`Ctrl+K` or `⌘K`)**: Fast keyboard navigation across all site pages and external profiles.
    - **Simulated CLI Terminal**: Sandboxed terminal accepting predefined safe commands (`help`, `about`, `projects`, `learning`, `cybersecurity`, `ventures`, `socials`, `clear`, `exit`, `theme`). Zero operating system commands or arbitrary code execution.
 
-7. **Production Security & Standards**:
-   - Strict Content Security Policy (CSP), HSTS, X-Frame-Options DENY, nosniff, and COOP/CORP headers configured in `next.config.ts`.
-   - `rel="noopener noreferrer"` enforced on all external URLs.
-   - Runtime input sanitization against XSS and protocol injections.
+7. **Production Security Hardening & Standards**:
+   - Strict Content Security Policy (CSP), HSTS (`max-age=63072000`), X-Frame-Options DENY, nosniff, COOP/CORP, and Permissions-Policy configured in `next.config.ts`.
+   - Web crawler protection in `robots.ts` disallowing automated indexing of internal `/api/` endpoints.
+   - SSRF and path-traversal prevention via input sanitization on repository and README requests.
+   - Strict protocol enforcement (`https://` / `http://`) on external URLs to eliminate `javascript:` injection vectors.
+   - Clean ESLint status: **0 errors, 0 warnings**.
 
 ---
 
