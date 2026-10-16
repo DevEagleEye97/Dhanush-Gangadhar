@@ -8,7 +8,7 @@ export const learningData: LearningEntry[] = [
     shortExplanation: "Studied the 7-layer OSI model and 4-layer TCP/IP architectural differences, packet encapsulation/decapsulation, MTU sizing, and frame headers.",
     period: "May 2026 – June 2026",
     status: "completed",
-    relatedProject: "PacketLens",
+    relatedProject: "PacketLens (Lab Study)",
     keyConcepts: ["Layer 2–4 Headers", "PDU Encapsulation", "3-Way TCP Handshake", "Wireshark Capture"],
   },
   {
@@ -36,7 +36,7 @@ export const learningData: LearningEntry[] = [
     shortExplanation: "Core navigation, file permission calculation (rwx, octal, SUID/SGID/sticky), process hierarchy (`ps`, `top`, `kill`), and text filtering with `awk`/`sed`/`grep`.",
     period: "April 2026 – June 2026",
     status: "completed",
-    relatedProject: "Linux CIS Security Audit",
+    relatedProject: "Linux CIS Security Audit (Lab Study)",
     keyConcepts: ["Permission Bits & Octal Masks", "STDIN/STDOUT/STDERR Redirection", "Signal Handling (SIGTERM/SIGKILL)", "Cron & Systemd Timers"],
   },
   {
@@ -46,7 +46,7 @@ export const learningData: LearningEntry[] = [
     shortExplanation: "Investigating how Linux tracks active sockets via `/proc/net`, loopback behavior, network namespaces, and packet filtering with iptables rules.",
     period: "August 2026 – Present",
     status: "learning",
-    relatedProject: "PacketLens",
+    relatedProject: "PacketLens (Lab Study)",
     keyConcepts: ["Network Namespaces", "Raw Socket Capabilities", "iptables Chain Traversal", "Systemd-resolved & DNS Caching"],
   },
   {
@@ -56,7 +56,7 @@ export const learningData: LearningEntry[] = [
     shortExplanation: "Understanding how SYN scans, TCP Connect scans, and UDP probing function at the packet level, alongside banner grabbing and passive foot-printing.",
     period: "July 2026 – August 2026",
     status: "practiced",
-    relatedProject: "ReconScope CLI",
+    relatedProject: "Threat-X",
     keyConcepts: ["TCP SYN vs ACK Scans", "TTL Fingerprinting", "Passive vs. Active Recon", "Nmap Timing Templates"],
   },
   {
@@ -84,7 +84,7 @@ export const learningData: LearningEntry[] = [
     shortExplanation: "Building low-latency networking utilities with Python's standard `socket` and `asyncio` modules to handle concurrent connections efficiently.",
     period: "July 2026 – August 2026",
     status: "completed",
-    relatedProject: "ReconScope CLI",
+    relatedProject: "Python Chess Game",
     keyConcepts: ["Async / Await Event Loops", "Blocking vs. Non-blocking Sockets", "JSON Stream Parsing", "HTTPX Connection Pooling"],
   },
   {
@@ -94,7 +94,7 @@ export const learningData: LearningEntry[] = [
     shortExplanation: "Building scalable, accessible user interfaces with Next.js App Router, server-rendered components, strict TypeScript types, and Tailwind CSS design tokens.",
     period: "March 2026 – Present",
     status: "practiced",
-    relatedProject: "Personal Digital Headquarters",
+    relatedProject: "Personal Digital Headquarters & Learning Hub",
     keyConcepts: ["Server vs Client Components", "Tailwind Design Systems", "Accessible Semantics (WCAG 2.1)", "Responsive Typography"],
   },
   {
